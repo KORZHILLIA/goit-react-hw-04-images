@@ -96,30 +96,88 @@ class ImageFinder extends Component {
       error,
     } = this.state;
 
-    if (!foundInfo) {
-      return (
-        <>
-          <SearchBar onSubmit={submitHandler} />
-          {error && <p className={styles.errorMessage}>{error}</p>}
-          {loading ? (
-            <Oval
-              className={styles.spinner}
-              stroke="#3f51b8"
-              fill="#3f51b5"
-              strokeOpacity={0.825}
-              speed={2.0}
-            />
-          ) : null}
-        </>
-      );
-    }
-    const { hits, total } = foundInfo;
-    const totalPages = Math.ceil(total / hits.length);
+    // if (!foundInfo) {
+    //   return (
+    //     <>
+    //       <SearchBar onSubmit={submitHandler} />
+    //       {error && <p className={styles.errorMessage}>{error}</p>}
+    //       {loading ? (
+    //         <Oval
+    //           className={styles.spinner}
+    //           stroke="#3f51b8"
+    //           fill="#3f51b5"
+    //           strokeOpacity={0.825}
+    //           speed={2.0}
+    //         />
+    //       ) : null}
+    //     </>
+    //   );
+    // }
+    // // const { hits, total } = foundInfo;
+    // // const totalPages = Math.ceil(total / hits.length);
+
+    // return (
+    //   <>
+    //     <SearchBar onSubmit={submitHandler} />
+    //     {error && <p className={styles.errorMessage}>{error}</p>}
+    //     {showModal && (
+    //       <Modal onClose={closeModal}>
+    //         {
+    //           <img
+    //             className={styles.modalImg}
+    //             src={currentImg.img}
+    //             alt={currentImg.alt}
+    //           />
+    //         }
+    //       </Modal>
+    //     )}
+    //     {loading && searchPageNumber === 1 && (
+    //       <Oval
+    //         className={styles.spinner}
+    //         stroke="#3f51b8"
+    //         fill="#3f51b5"
+    //         strokeOpacity={0.825}
+    //         speed={2.0}
+    //       />
+    //     )}
+    //     {!error && (
+    //       <ImageGallery
+    //         hits={foundInfo.hits}
+    //         currentImgChanger={setCurrentImg}
+    //       />
+    //     )}
+    //     {loading && searchPageNumber > 1 && (
+    //       <Oval
+    //         className={styles.spinner}
+    //         stroke="#3f51b8"
+    //         fill="#3f51b5"
+    //         strokeOpacity={0.825}
+    //         speed={2.0}
+    //       />
+    //     )}
+    //     {!error && Math.ceil(foundInfo.total / foundInfo.hits.length) > 1 ? (
+    //       <Button onClick={loadMoreClickHandler} />
+    //     ) : (
+    //       ''
+    //     )}
+    //   </>
+    // );
 
     return (
       <>
         <SearchBar onSubmit={submitHandler} />
-        {error && <p className={styles.errorMessage}>{error}</p>}
+        {!foundInfo && error && <p className={styles.errorMessage}>{error}</p>}
+        {!foundInfo && loading ? (
+          <Oval
+            className={styles.spinner}
+            stroke="#3f51b8"
+            fill="#3f51b5"
+            strokeOpacity={0.825}
+            speed={2.0}
+          />
+        ) : null}
+
+        {foundInfo && error && <p className={styles.errorMessage}>{error}</p>}
         {showModal && (
           <Modal onClose={closeModal}>
             {
@@ -140,7 +198,7 @@ class ImageFinder extends Component {
             speed={2.0}
           />
         )}
-        {!error && (
+        {foundInfo && !error && (
           <ImageGallery
             hits={foundInfo.hits}
             currentImgChanger={setCurrentImg}
@@ -155,7 +213,9 @@ class ImageFinder extends Component {
             speed={2.0}
           />
         )}
-        {!error && totalPages > 1 ? (
+        {foundInfo &&
+        !error &&
+        Math.ceil(foundInfo.total / foundInfo.hits.length) > 1 ? (
           <Button onClick={loadMoreClickHandler} />
         ) : (
           ''
