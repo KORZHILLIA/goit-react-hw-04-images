@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Oval } from 'react-loading-icons';
 import { fetchImages } from '../../shared/services/searchApi';
 import SearchBar from './SearchBar';
@@ -88,9 +88,12 @@ const ImageFinder = () => {
     }));
   }
 
-  function setCurrentImg(img) {
-    setModal({ currentImg: img, showModal: true });
-  }
+  const setCurrentImg = useCallback(
+    img => {
+      setModal({ currentImg: img, showModal: true });
+    },
+    [setModal]
+  );
 
   function closeModal() {
     setModal(prevState => ({ ...prevState, showModal: false }));

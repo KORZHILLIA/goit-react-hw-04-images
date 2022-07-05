@@ -6,7 +6,7 @@ const ImageGallery = ({ hits, currentImgChanger }) => {
   const images = hits.map(({ id, tags, webformatURL, largeImageURL }) => (
     <ImageGalleryItem
       key={id}
-      onClick={() => currentImgChanger({ img: largeImageURL, alt: tags })}
+      currentImgChanger={currentImgChanger}
       previewImg={webformatURL}
       alt={tags}
       largeImg={largeImageURL}
