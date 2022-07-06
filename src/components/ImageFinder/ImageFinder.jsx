@@ -77,16 +77,19 @@ const ImageFinder = () => {
     getImages(query, searchPageNumber);
   }, [searchPageNumber, query]);
 
-  function submitHandler(query) {
-    setState(prevState => ({ ...prevState, query, searchPageNumber: 1 }));
-  }
+  const submitHandler = useCallback(
+    query => {
+      setState(prevState => ({ ...prevState, query, searchPageNumber: 1 }));
+    },
+    [setState]
+  );
 
-  function loadMoreClickHandler() {
+  const loadMoreClickHandler = useCallback(() => {
     setState(prevState => ({
       ...prevState,
       searchPageNumber: prevState.searchPageNumber + 1,
     }));
-  }
+  }, [setState]);
 
   const setCurrentImg = useCallback(
     img => {
@@ -95,9 +98,9 @@ const ImageFinder = () => {
     [setModal]
   );
 
-  function closeModal() {
+  const closeModal = useCallback(() => {
     setModal(prevState => ({ ...prevState, showModal: false }));
-  }
+  }, [setModal]);
 
   return (
     <>
